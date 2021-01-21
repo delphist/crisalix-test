@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Crisalix</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <header>
+    <div class="collapse bg-dark" id="navbarHeader">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-7 py-4">
+            <h4 class="text-white">About</h4>
+            <p class="text-muted">This is a test assessment for Cristalix. You can login as doctor or patient and create appointments.</p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <% if user_signed_in? %>
+              <h4 class="text-white"><%= current_user.profile.name %></h4>
+              <ul class="list-unstyled">
+                <% if current_user.doctor? %>
+                  <li><%= link_to('Appointments', doctors_appointments_path) %></li>
+                <% elsif current_user.patient? %>
+                  <li><%= link_to('Appointments', patients_appointments_path) %></li>
+                  <li><%= link_to('Doctors list', patients_doctors_path) %></li>
+                <% end %>
+                <li><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
+              </ul>
+            <% else %>
+              <ul class="list-unstyled">
+                <li><%= link_to('Sign in', new_user_session_path) %></li>
+                <li><%= link_to('Register', new_user_registration_path) %></li>
+              </ul>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar navbar-dark <%= current_user&.doctor? ? 'bg-danger' : 'bg-dark' %> shadow-sm">
+      <div class="container d-flex justify-content-between">
+        <a href="/" class="navbar-brand d-flex align-items-center">
+          <strong>
+            Crisalix
+            <% if current_user&.doctor? %>
+            / Doctor
+            <% elsif current_user&.patient? %>
+            / Patient
+            <% end %>
+          </strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <%= yield %>
+  </main>
+  <footer class="text-muted">
+    <div class="container">
+      <p class="float-right">
+        <a href="#">Back to top</a>
+      </p>
+      <p>This is a test assessment for the Crisalix</p>
+      <p><a href="http://github.com/delphist">See a source code</a></p>
+    </div>
+  </footer>
+  </body>
+</html>

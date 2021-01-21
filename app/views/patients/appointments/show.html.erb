@@ -1,0 +1,23 @@
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1>Appointment with <%= @appointment.doctor.name %></h1>
+    <p class="lead text-muted">
+      Scheduled date: <%= @appointment.scheduled_at %><br />
+      Email: <%= @appointment.doctor.user.email %>
+    </p>
+  </div>
+</section>
+
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <% @appointment.images.each do |image| %>
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img class="card-img-top" src="<%= url_for(image) %>" alt="Card image cap">
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

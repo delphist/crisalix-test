@@ -1,0 +1,52 @@
+<main class="form-signin">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+    <% if resource.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% resource.errors.full_messages.each do |message| %>
+          <%= message %><br />
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="input-group alert alert-success">
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :profile_type, 'doctor', checked: !!resource.doctor?, class: 'form-check-input' %>
+        <label class="form-check-label" for="user_profile_type_doctor">Doctor</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :profile_type, 'patient', checked: !!resource.patient?, class: 'form-check-input' %>
+        <label class="form-check-label" for="user_profile_type_patient">Patient</label>
+      </div>
+    </div>
+
+    <div class="doctor_fields" style="display: none">
+      <%= f.fields_for :doctor, (resource.doctor? && resource.profile || Doctor.new) do |f1|%>
+        <%= f1.label :name, class: 'visually-hidden' %>
+        <%= f1.text_field :name, autofocus: true, autocomplete: "email", class: 'form-control' %>
+
+        <%= f1.label :city, class: 'visually-hidden' %>
+        <%= f1.text_field :city, autofocus: true, autocomplete: "email", class: 'form-control' %>
+      <% end %>
+    </div>
+
+    <div class="patient_fields" style="display: none">
+      <%= f.fields_for :patient, (resource.patient? && resource.profile || Patient.new) do |f1|%>
+        <%= f1.label :name, class: 'visually-hidden' %>
+        <%= f1.text_field :name, autofocus: true, autocomplete: "email", class: 'form-control' %>
+      <% end %>
+    </div>
+
+    <%= f.label :email, class: 'visually-hidden' %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
+
+    <%= f.label :password, class: 'visually-hidden' %>
+    <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+
+    <%= f.label :password_confirmation, class: 'visually-hidden' %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+
+    <%= f.submit "Register", class: 'w-100 btn btn-lg btn-primary' %>
+  <% end %>
+</main>
